@@ -9,6 +9,3 @@ RUN npm ci
 
 COPY cypress.config.js .
 COPY cypress ./cypress
-
-ENTRYPOINT ["npx"]
-CMD ["cypress", "run"]

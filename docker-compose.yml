@@ -9,12 +9,19 @@ services:
       - "3000:3000" 
 
 
-  cypress:
-    build:
-      context: .
-      dockerfile: Dockerfile.cypress
-    container_name: cypress-runner
+  e2e:
+    image: cypress
+    build: ./e2e
+    container_name: cypress
     depends_on:
+      - web
+    environment:
+      - CYPRESS_baseUrl=http://web
+    command: npx cypress run
+
+    volumes:
+      - ./e2e/cypress:/app/cypress
+      - ./e2e/cypress.config.js:/app/cypress.config.js
       - api
     # Passa a URL da API como variável de ambiente para o contêiner do Cypress
     # 'http://api:3000' -> 'api' é o nome do serviço definido acima.
