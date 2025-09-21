@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  api:
+    image: paulogoncalvesbh/serverest:latest
+    container_name: serverest-api
+    ports:
+      - "3000:3000" 
+
+
+  cypress:
+    build:
+      context: .
+      dockerfile: Dockerfile.cypress
+    container_name: cypress-runner
+    depends_on:
+      - api
+    # Passa a URL da API como variável de ambiente para o contêiner do Cypress
+    # 'http://api:3000' -> 'api' é o nome do serviço definido acima.
+    environment:
+      - CYPRESS_BASE_URL=http://api:3000

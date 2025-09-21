@@ -7,6 +7,8 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     watchForFileChanges: false,
-    baseUrl: 'http://localhost:3000', // Base URL for the API
-  },
+    baseUrl:  process.env.CYPRESS_BASE_URL || 'http://localhost:3000',
+
+  }
 });
+

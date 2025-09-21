@@ -1,0 +1,32 @@
+name: Cypress Playground testing with Docker Compose
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+ 
+      - name: Start API Service
+        run: docker-compose up -d api
+   
+      - name: Wait for API
+        run: |
+          echo "Waiting for Serverest API..."
+          docker-compose exec -T api npx wait-on http-get://localhost:3000/login -t 60000 -i 5000 --verbose
+
+      - name: Display API logs
+        run: docker-compose logs api
+
+      - name: Run Cypress tests
+        run: docker-compose run --rm cypress cypress run
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose down -v
