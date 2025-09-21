@@ -1,7 +1,7 @@
 
 FROM node:18-slim
 
-WORKDIR /e2e
+WORKDIR /cypress/e2e
 
 COPY package.json package-lock.json* ./
 
