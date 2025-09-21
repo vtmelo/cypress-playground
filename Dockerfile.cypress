@@ -1,7 +1,7 @@
 
 FROM node:18-slim
 
-WORKDIR /cypress/e2e
+WORKDIR /e2e
 
 COPY package.json package-lock.json* ./
 
@@ -9,3 +9,5 @@ RUN npm ci
 
 COPY cypress.config.js .
 COPY cypress ./cypress
+
+ENTRYPOINT ["npx", "cypress"]
