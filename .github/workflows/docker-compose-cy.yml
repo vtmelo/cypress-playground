@@ -7,7 +7,7 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  test:
+  cypress-run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
