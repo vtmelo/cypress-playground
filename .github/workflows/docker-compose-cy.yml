@@ -9,21 +9,26 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-24.04
-    container:
-      image: cypress/browsers:22.15.0
-      options: --user 1001
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Start API Service
         run: docker compose up -d api
-   
+
       - name: Wait for API
         run: |
           echo "Waiting for Serverest API..."
-          docker compose exec -T api npx wait-on http-get://localhost:3000/usuarios -t 60000 -i 5000 --verbose
+          npx wait-on http-get://localhost:3000/usuarios -t 60000 -i 5000 --verbose
 
       - name: Display API logs
         run: docker compose logs api
